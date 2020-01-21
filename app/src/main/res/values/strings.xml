@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Daily Stretches</string>
+
+
+    <string name="stretch1">Hamstrings</string>
+    <string name="stretch2">Neck</string>
+    <string name="stretch3">Shoulder</string>
+    <string name="stretch4">Back</string>
+    <string name="stretch5">Fore arms</string>
+    <string name="stretch6">Ankles</string>
+    <string name="stretch7">Feet</string>
+    <string name="stretch8">Shoulders</string>
+    <string name="stretch9">Chest</string>
+    <string name="stretch10">Stomach</string>
+    <string name="stretch11">Hip Flexors</string>
+    <string name="stretch12">Lower back</string>
+
 </resources>
