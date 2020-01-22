@@ -1,16 +1,22 @@
 package com.example.dailystretches;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.NotificationManager;
 import android.os.Bundle;
+import android.view.View;
+
+import com.example.dailystretches.utilities.NotificationsUtil;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mStretchRecyclerView;
     private StretchAdapter mStretchAdapter;
     private String[] stretches;
+
 
 
     @Override
@@ -26,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         mStretchRecyclerView.setAdapter(mStretchAdapter);
 
 
+
+
     }
 
     public String[] getStrings(){
@@ -38,4 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
         return someStretches;
     }
+
+    public void launchNotifications(View view){
+        NotificationsUtil.stretchReminder(this);
+
+    }
+
 }
