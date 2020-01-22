@@ -15,4 +15,8 @@
     <string name="stretch11">Hip Flexors</string>
     <string name="stretch12">Lower back</string>
 
+    <string name="main_notification_channel_name">Primary</string>
+
+    <string name="stretch_reminder">Remember  to Stretch!</string>
+
 </resources>
