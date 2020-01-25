@@ -1,22 +1,25 @@
 package com.example.dailystretches;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.dailystretches.utilities.NotificationsUtil;
 import com.example.dailystretches.utilities.TimedReminderUtil;
 
-public class MainActivity extends AppCompatActivity implements StretchAdapter.onClickHandler{
+public class MainActivity extends AppCompatActivity implements StretchAdapter.AdapterOnCheckedItemListener {
 
     private RecyclerView mStretchRecyclerView;
     private StretchAdapter mStretchAdapter;
     private String[] stretches;
+    private Context context;
 
 
 
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements StretchAdapter.on
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TimedReminderUtil.scheduleReminder(this);
         stretches = getStrings();
 
         mStretchRecyclerView = findViewById(R.id.main_recycler_view);
@@ -31,10 +35,7 @@ public class MainActivity extends AppCompatActivity implements StretchAdapter.on
         mStretchAdapter = new StretchAdapter(this, this);
         mStretchAdapter.setStretchData(stretches);
         mStretchRecyclerView.setAdapter(mStretchAdapter);
-
-        TimedReminderUtil.scheduleReminder(this);
-
-
+        context = this;
 
 
     }
@@ -43,20 +44,35 @@ public class MainActivity extends AppCompatActivity implements StretchAdapter.on
 
         String[] someStretches = {
                 "Downward facing dog",
-                "Squat hammy stetch",
-                "Kowtow Back Stretch"
+                "Squat hammy stretch",
+                "Long kow-tow"
         };
 
         return someStretches;
     }
 
-    public void launchNotifications(View view){
-        NotificationsUtil.stretchReminder(this);
+    public String[] getNewStretches(String tvText){
+        tvText.toLowerCase();
+        String[] newStringList = new String[stretches.length - 1];
+        int counter = 0;
+        for(int i = 0; i < stretches.length; i++){
+            if(!tvText.equals(stretches[i])){
+                newStringList[counter] = stretches[i];
+                counter++;
+            }
+        }
+        return newStringList;
 
-    }
+    };
+
 
     @Override
-    public void onClick(View clickedView) {
-        clickedView.setVisibility(View.INVISIBLE);
+    public void onChecked(TextView textView, CheckBox checkBox) {
+        stretches = getNewStretches(textView.getText().toString());
+        mStretchAdapter.setStretchData(stretches);
+        mStretchRecyclerView.setAdapter(mStretchAdapter);
     }
+
+
 }
+

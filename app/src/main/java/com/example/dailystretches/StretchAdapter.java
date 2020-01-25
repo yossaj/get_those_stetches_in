@@ -17,17 +17,16 @@ public class StretchAdapter extends RecyclerView.Adapter<StretchAdapter.StretchV
     private Context mContext;
     private String[] mStretchData;
 
-    private final onClickHandler mClickHandler;
+    private final AdapterOnCheckedItemListener mCheckedHandler;
 
-    public interface onClickHandler {
-        void onClick(View clickedView);
-
+    public interface AdapterOnCheckedItemListener {
+        void onChecked(TextView textView, CheckBox checkBox);
     }
 
-    public StretchAdapter(Context context, onClickHandler clickHandler){
-        mContext = context;
-        mClickHandler = clickHandler;
 
+    public StretchAdapter(Context context, AdapterOnCheckedItemListener checkedHandler){
+        mContext = context;
+        mCheckedHandler = checkedHandler;
     }
 
     @NonNull
@@ -44,13 +43,6 @@ public class StretchAdapter extends RecyclerView.Adapter<StretchAdapter.StretchV
     public void onBindViewHolder(@NonNull final StretchViewHolder holder, int position) {
         String stretchForItem = mStretchData[position];
         holder.stretchTitleTV.setText(stretchForItem);
-        holder.stretchCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Toast.makeText(mContext, "Great Job Elastic Legs!", Toast.LENGTH_SHORT)
-                        .show();
-                holder.itemView.setVisibility(View.GONE);
-            }
-        });
     }
 
     @Override
@@ -64,7 +56,7 @@ public class StretchAdapter extends RecyclerView.Adapter<StretchAdapter.StretchV
     }
 
 
-    class StretchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class StretchViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
 
         public final TextView stretchTitleTV;
         private final CheckBox stretchCB;
@@ -73,15 +65,17 @@ public class StretchAdapter extends RecyclerView.Adapter<StretchAdapter.StretchV
             super(itemView);
             stretchTitleTV = itemView.findViewById(R.id.stretch_title);
             stretchCB = itemView.findViewById(R.id.list_check_stretch);
-            itemView.setOnClickListener(this);
+            stretchCB.setOnCheckedChangeListener(this);
 
         }
 
         @Override
-        public void onClick(View view) {
-            mClickHandler.onClick(view);
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            mCheckedHandler.onChecked(stretchTitleTV, stretchCB);
         }
     }
+
+
 
 
 }
