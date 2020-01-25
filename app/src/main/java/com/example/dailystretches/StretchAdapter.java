@@ -4,7 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,8 +17,16 @@ public class StretchAdapter extends RecyclerView.Adapter<StretchAdapter.StretchV
     private Context mContext;
     private String[] mStretchData;
 
-    public StretchAdapter(Context context){
+    private final onClickHandler mClickHandler;
+
+    public interface onClickHandler {
+        void onClick(View clickedView);
+
+    }
+
+    public StretchAdapter(Context context, onClickHandler clickHandler){
         mContext = context;
+        mClickHandler = clickHandler;
 
     }
 
@@ -30,10 +41,16 @@ public class StretchAdapter extends RecyclerView.Adapter<StretchAdapter.StretchV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StretchViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final StretchViewHolder holder, int position) {
         String stretchForItem = mStretchData[position];
         holder.stretchTitleTV.setText(stretchForItem);
-
+        holder.stretchCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Toast.makeText(mContext, "Great Job Elastic Legs!", Toast.LENGTH_SHORT)
+                        .show();
+                holder.itemView.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -47,13 +64,22 @@ public class StretchAdapter extends RecyclerView.Adapter<StretchAdapter.StretchV
     }
 
 
-    class StretchViewHolder extends RecyclerView.ViewHolder{
+    class StretchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public final TextView stretchTitleTV;
+        private final CheckBox stretchCB;
 
         public StretchViewHolder(@NonNull View itemView) {
             super(itemView);
             stretchTitleTV = itemView.findViewById(R.id.stretch_title);
+            stretchCB = itemView.findViewById(R.id.list_check_stretch);
+            itemView.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View view) {
+            mClickHandler.onClick(view);
         }
     }
 

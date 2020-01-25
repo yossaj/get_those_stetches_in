@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.example.dailystretches.utilities.NotificationsUtil;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements StretchAdapter.onClickHandler{
 
     private RecyclerView mStretchRecyclerView;
     private StretchAdapter mStretchAdapter;
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         mStretchRecyclerView = findViewById(R.id.main_recycler_view);
         mStretchRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mStretchAdapter = new StretchAdapter(this);
+        mStretchAdapter = new StretchAdapter(this, this);
         mStretchAdapter.setStretchData(stretches);
         mStretchRecyclerView.setAdapter(mStretchAdapter);
 
@@ -52,4 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onClick(View clickedView) {
+        clickedView.setVisibility(View.INVISIBLE);
+    }
 }
