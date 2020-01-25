@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.dailystretches.utilities.NotificationsUtil;
+import com.example.dailystretches.utilities.TimedReminderUtil;
 
 public class MainActivity extends AppCompatActivity implements StretchAdapter.onClickHandler{
 
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements StretchAdapter.on
         mStretchAdapter = new StretchAdapter(this, this);
         mStretchAdapter.setStretchData(stretches);
         mStretchRecyclerView.setAdapter(mStretchAdapter);
+
+        TimedReminderUtil.scheduleReminder(this);
 
 
 
